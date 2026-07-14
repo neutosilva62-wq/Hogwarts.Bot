@@ -22,7 +22,7 @@ from aiogram.types import (
 )
 
 TOKEN = os.getenv("BOT_TOKEN")
-OWNER_IDS = [1130170420, 8672397104]
+OWNER_IDS = [1130170420, 8672397104, 845010007]
 
 # Grupo único da Biblioteca de Hogwarts
 # Link interno: https://t.me/c/3553956365/...
