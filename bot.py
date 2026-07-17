@@ -3717,10 +3717,37 @@ async def aplicar_modo_noturno(chat_id: int, estado: str):
     await apagar_ultima_msg_noturna(chat_id)
 
     if estado == "closed":
+
+        # Fecha o tópico
         await fechar_topico_invocacao(chat_id)
+
+        # Bloqueia o grupo para membros
+        await bot.set_chat_permissions(
+            chat_id,
+            ChatPermissions()
+        )
+
+        # Envia a mensagem do modo noturno
         await enviar_mensagem_noturna_no_topico(chat_id, "start")
+        
     else:
+
+        # Reabre o tópico
         await abrir_topico_invocacao(chat_id)
+
+        # Libera o grupo novamente
+        await bot.set_chat_permissions(
+            chat_id,
+            ChatPermissions(
+                can_send_messages=True,
+                can_send_other_messages=True,
+                can_add_web_page_previews=True,
+                can_send_polls=True,
+                can_invite_users=True,
+            )
+        )
+
+        # Envia a mensagem de encerramento
         await enviar_mensagem_noturna_no_topico(chat_id, "end")
 
     cur.execute("UPDATE night_config SET last_state=? WHERE chat_id=?", (estado, chat_id))
